@@ -28,6 +28,7 @@ const TimerScreen = () => {
         >
           <div className="h-9 flex flex-row justify-evenly">
             <ButtonTimer
+              bgColor="bg-[#3d98f4]"
               title={titleButtonStartPause}
               handleClick={handleStartPauseButton}
             />
