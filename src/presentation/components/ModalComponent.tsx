@@ -6,8 +6,39 @@ import {
   DialogTitle,
 } from "@headlessui/react";
 
-const ModalComponent = (icon: any) => {
+interface ModalProps {
+  icon: string;
+  title: string;
+  handleChangeFunction: (seconds: number, minutes: number) => void;
+}
+
+const ModalComponent = ({ icon, title, handleChangeFunction }: ModalProps) => {
   const [open, setOpen] = useState(false);
+  const [minutes, setMinutes] = useState(0);
+  const [seconds, setSeconds] = useState(0);
+
+  const toggleFunction = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleOnClickSave = () => {
+    toggleFunction();
+    handleChangeFunction(seconds, minutes);
+  };
+
+  const handleOnClickInputMinutes = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = event.target.valueAsNumber;
+    setMinutes(inputValue);
+  };
+
+  const handleOnClickInputSeconds = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const inputValue = event.target.valueAsNumber;
+    setSeconds(inputValue);
+  };
 
   return (
     <div>
@@ -15,9 +46,9 @@ const ModalComponent = (icon: any) => {
         onClick={() => setOpen(true)}
         className="rounded-md px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10"
       >
-        {/* {icon} */}+
+        {icon}
       </button>
-      <Dialog open={open} onClose={setOpen} className="relative z-10">
+      <Dialog open={open} onClose={toggleFunction} className="relative z-10">
         <DialogBackdrop
           transition
           className="fixed inset-0 bg-gray-500/75 transition-opacity data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in"
@@ -36,14 +67,19 @@ const ModalComponent = (icon: any) => {
                       as="h3"
                       className="text-base font-semibold text-gray-900"
                     >
-                      configurations
+                      Configurations for {title}
                     </DialogTitle>
                     <div className="mt-2">
-                      <p className="text-sm text-gray-500">
-                        Are you sure you want to deactivate your account? All of
-                        your data will be permanently removed. This action
-                        cannot be undone.
-                      </p>
+                      <Input
+                        label="minutes"
+                        value={minutes}
+                        setValue={handleOnClickInputMinutes}
+                      />
+                      <Input
+                        label="seconds"
+                        value={seconds}
+                        setValue={handleOnClickInputSeconds}
+                      />
                     </div>
                   </div>
                 </div>
@@ -51,7 +87,7 @@ const ModalComponent = (icon: any) => {
               <div className="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
                 <button
                   type="button"
-                  onClick={() => setOpen(false)}
+                  onClick={handleOnClickSave}
                   className="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-red-500 sm:ml-3 sm:w-auto"
                 >
                   Save
@@ -59,7 +95,7 @@ const ModalComponent = (icon: any) => {
                 <button
                   type="button"
                   data-autofocus
-                  onClick={() => setOpen(false)}
+                  onClick={toggleFunction}
                   className="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-xs ring-1 ring-gray-300 ring-inset hover:bg-gray-50 sm:mt-0 sm:w-auto"
                 >
                   Cancel
@@ -74,3 +110,35 @@ const ModalComponent = (icon: any) => {
 };
 
 export default ModalComponent;
+
+interface InputProps {
+  label: string;
+  value: number;
+  setValue: (e: any) => void;
+}
+export const Input = ({ label, setValue, value }: InputProps) => {
+  return (
+    <div>
+      <label
+        htmlFor={label}
+        className="block text-sm/6 font-medium text-gray-900 text-left"
+      >
+        {label}
+      </label>
+      <div className="mt-2">
+        <div className="flex items-center rounded-md bg-white pl-3 outline-1 -outline-offset-1 outline-gray-300 has-[input:focus-within]:outline-2 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-indigo-600">
+          <div className="shrink-0 text-base text-gray-500 select-none sm:text-sm/6"></div>
+          <input
+            onChange={setValue}
+            id={label}
+            name={label}
+            value={value}
+            type="number"
+            placeholder="25"
+            className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};

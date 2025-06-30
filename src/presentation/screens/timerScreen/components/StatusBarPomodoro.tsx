@@ -1,34 +1,35 @@
-
-import { useState } from "react";
 import ItemStatusBar from "./ItemStatusBar";
 
-type PomodoroMode = "pomodoro" | "shortBreak" | "longBreak";
+type TimerType = "pomodoro" | "shortBreak" | "longBreak";
 
-const StatusBarPomodoro = () => {
-  const [activeMode, setActiveMode] = useState<PomodoroMode>("pomodoro");
+interface StatusBarPomodoroProps {
+  mode: string;
+  setMode: (mode: TimerType) => void;
+}
 
+const StatusBarPomodoro = ({ mode, setMode }: StatusBarPomodoroProps) => {
   return (
     <div className="w-5/6 min-w-[310px]">
       <div className="flex h-10 flex-1 items-center justify-center rounded-full bg-[#e7edf4] p-1">
         <ItemStatusBar
-          isActive={activeMode == "pomodoro"}
+          isActive={mode == "pomodoro"}
           title={"Pomodoro"}
           handleClick={() => {
-            setActiveMode("pomodoro");
+            setMode("pomodoro");
           }}
         />
         <ItemStatusBar
-          isActive={activeMode == "shortBreak"}
+          isActive={mode == "shortBreak"}
           title={"Short Break"}
           handleClick={() => {
-            setActiveMode("shortBreak");
+            setMode("shortBreak");
           }}
         />
         <ItemStatusBar
-          isActive={activeMode == "longBreak"}
+          isActive={mode == "longBreak"}
           title={"Large Break"}
           handleClick={() => {
-            setActiveMode("longBreak");
+            setMode("longBreak");
           }}
         />
       </div>

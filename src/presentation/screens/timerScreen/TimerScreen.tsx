@@ -5,6 +5,7 @@ import TimerCounter from "./components/TimerCounter";
 import NavbarComponent from "../../components/NavbarComponent";
 
 type StatusTimer = "start" | "pause" | "skip" | "reset";
+type TimerType = "pomodoro" | "shortBreak" | "longBreak";
 interface TimerValues {
   minutes: number;
   seconds: number;
@@ -14,6 +15,7 @@ const TimerScreen = () => {
   const [timerStatus, setTimerStatus] = useState<StatusTimer>("start");
   const [titleButtonStartPause, setTitleButtonStartPause] = useState("start");
   const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [timerType, setTimerType] = useState<TimerType>("pomodoro");
   const [timeCounterValues, setTimeCounterValues] = useState<TimerValues>({
     minutes: 25,
     seconds: 0,
@@ -22,10 +24,21 @@ const TimerScreen = () => {
   const [longtBreakSeconds, setLongtBreakSeconds] = useState(900);
   const [pomodoroSeconds, setPomodoroSeconds] = useState(1500);
 
+  const handleTimerType = (type: TimerType) => {
+    setTimerType(type);
+  };
+
   const transformSecondsToMinutesSeconds = (timeToTransform: number) => {
     const seconds: number = timeToTransform % 60;
     const minutes = Math.floor(timeToTransform / 60);
-    setTimeCounterValues({ seconds, minutes });
+    return { seconds, minutes };
+  };
+
+  const handleConfigurationAction = (seconds: number, minutes: number) => {
+    const updatedSeconds = minutes * 60 + seconds;
+    const updatedTimer = transformSecondsToMinutesSeconds(updatedSeconds);
+    setPomodoroSeconds(updatedSeconds);
+    setTimeCounterValues(updatedTimer);
   };
 
   const handleStartPauseButton = () => {
@@ -52,9 +65,13 @@ const TimerScreen = () => {
 
   return (
     <>
-      <NavbarComponent titleScreen={"Pomodoro"} icon={"+"} />
+      <NavbarComponent
+        titleScreen={timerType}
+        icon={"+"}
+        handleFunction={handleConfigurationAction}
+      />
       <div className="flex items-center justify-center flex-col">
-        <StatusBarPomodoro />
+        <StatusBarPomodoro mode={timerType} setMode={handleTimerType} />
         <div
           id="timer_panel"
           className="pt-5 px-4 flex flex-col w-full justify-between"
