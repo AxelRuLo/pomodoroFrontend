@@ -1,8 +1,4 @@
 import { useState } from "react";
-interface TimerValues {
-    minutes: number;
-    seconds: number;
-}
 
 
 export const useCounterNavbar = () => {
