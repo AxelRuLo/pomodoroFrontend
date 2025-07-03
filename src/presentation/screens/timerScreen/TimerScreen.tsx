@@ -6,6 +6,7 @@ import { useCounter } from "./hooks/useCounter";
 import { useCounterNavbar } from "./hooks/useCounterNavbar";
 import { useEffect, useState } from "react";
 import ModalAlarmComponent from "../../components/ModalAlarmComponent";
+import iconImage from "../../../assets/png/setting.png";
 
 const TimerScreen = () => {
   const [isAlarmRinging, setIsAlarmRinging] = useState(false);
@@ -48,7 +49,7 @@ const TimerScreen = () => {
       <NavbarComponent
         titleScreen={"Pomodoro"}
         pomodoroState={pomodoroState}
-        icon={"src/assets/png/setting.png"}
+        icon={iconImage}
         handleFunction={handleConfiguration}
       />
       <div className="flex items-center justify-center flex-col">

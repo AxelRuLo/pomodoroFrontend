@@ -5,9 +5,10 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/react";
-import alarmSound from "../../assets/sound/alarm.mp3"; // Adjust path as needed
-import { Transition } from "@headlessui/react";
+import alarmSound from "../../assets/sound/alarm.mp3";
+import catImage from "../../assets/gifts/Cat.gif"; 
 
+import { Transition } from "@headlessui/react";
 interface Props {
   handleClose: () => void;
   isOpen: boolean;
@@ -59,7 +60,7 @@ const ModalAlarmComponent = ({ handleClose, isOpen }: Props) => {
               className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all data-closed:translate-y-4 data-closed:opacity-0 data-enter:duration-300 data-enter:ease-out data-leave:duration-200 data-leave:ease-in sm:my-8 sm:w-full sm:max-w-lg data-closed:sm:translate-y-0 data-closed:sm:scale-95"
             >
               <img
-                src="src/assets/gifts/Cat.gif"
+                src={catImage}
                 alt="Funny GIF"
                 style={{ width: "300px", height: "auto" }}
               />
