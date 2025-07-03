@@ -1,7 +1,7 @@
 interface Props {
   title: string;
   bgColor?: string;
-  handleClick: () => void;
+  handleClick: (time: any) => void;
 }
 
 const ButtonTimer = ({ title, bgColor, handleClick }: Props) => {

@@ -1,77 +1,54 @@
-import { useState } from "react";
 import ButtonTimer from "./components/ButtonTimer";
 import StatusBarPomodoro from "./components/StatusBarPomodoro";
 import TimerCounter from "./components/TimerCounter";
 import NavbarComponent from "../../components/NavbarComponent";
-
-type StatusTimer = "start" | "pause" | "skip" | "reset";
-type TimerType = "pomodoro" | "shortBreak" | "longBreak";
-interface TimerValues {
-  minutes: number;
-  seconds: number;
-}
+import { useCounter } from "./hooks/useCounter";
+import { useCounterNavbar } from "./hooks/useCounterNavbar";
+import { useEffect, useState } from "react";
+import ModalAlarmComponent from "../../components/ModalAlarmComponent";
 
 const TimerScreen = () => {
-  const [timerStatus, setTimerStatus] = useState<StatusTimer>("start");
-  const [titleButtonStartPause, setTitleButtonStartPause] = useState("start");
-  const [isTimerRunning, setIsTimerRunning] = useState(false);
-  const [timerType, setTimerType] = useState<TimerType>("pomodoro");
-  const [timeCounterValues, setTimeCounterValues] = useState<TimerValues>({
-    minutes: 25,
-    seconds: 0,
-  });
-  const [shortBreakSeconds, setShortBreakSeconds] = useState(300);
-  const [longtBreakSeconds, setLongtBreakSeconds] = useState(900);
-  const [pomodoroSeconds, setPomodoroSeconds] = useState(1500);
+  const [isAlarmRinging, setIsAlarmRinging] = useState(false);
+  const { pomodoroState, handlePomodoroStage, handleNextState } =
+    useCounterNavbar();
 
-  const handleTimerType = (type: TimerType) => {
-    setTimerType(type);
+  const {
+    timeCounterValues,
+    timerStatus,
+    isTimerRunning,
+    handleStartPauseButton,
+    handleResetButton,
+    resetTimer,
+    setConfigTimer,
+  } = useCounter();
+
+  const handleConfiguration = (minutes: number, seconds: number) => {
+    setConfigTimer(pomodoroState, minutes, seconds);
   };
 
-  const transformSecondsToMinutesSeconds = (timeToTransform: number) => {
-    const seconds: number = timeToTransform % 60;
-    const minutes = Math.floor(timeToTransform / 60);
-    return { seconds, minutes };
+  const handleSkip = () => {
+    handleNextState();
+    handleResetButton(pomodoroState);
   };
 
-  const handleConfigurationAction = (seconds: number, minutes: number) => {
-    const updatedSeconds = minutes * 60 + seconds;
-    const updatedTimer = transformSecondsToMinutesSeconds(updatedSeconds);
-    setPomodoroSeconds(updatedSeconds);
-    setTimeCounterValues(updatedTimer);
-  };
-
-  const handleStartPauseButton = () => {
-    const newStatus: StatusTimer = ["pause", "skip", "reset"].includes(
-      timerStatus
-    )
-      ? "start"
-      : "pause";
-    setTitleButtonStartPause(newStatus);
-    setTimerStatus(newStatus);
-    setIsTimerRunning((prev) => !prev);
-  };
-
-  const handleSkipButton = () => {
-    setTimerStatus("skip");
-    setIsTimerRunning(false);
-  };
-
-  const handleResetButton = () => {
-    setTimerStatus("reset");
-    setIsTimerRunning(false);
-    transformSecondsToMinutesSeconds(pomodoroSeconds);
-  };
+  useEffect(() => {
+    resetTimer(pomodoroState);
+  }, [pomodoroState]);
 
   return (
     <>
+      {/* {isAlarmRinging && <ModalAlarmComponent />} */}
       <NavbarComponent
-        titleScreen={timerType}
+        titleScreen={"Pomodoro"}
+        pomodoroState={pomodoroState}
         icon={"+"}
-        handleFunction={handleConfigurationAction}
+        handleFunction={handleConfiguration}
       />
       <div className="flex items-center justify-center flex-col">
-        <StatusBarPomodoro mode={timerType} setMode={handleTimerType} />
+        <StatusBarPomodoro
+          state={pomodoroState}
+          setPomodoroStage={handlePomodoroStage}
+        />
         <div
           id="timer_panel"
           className="pt-5 px-4 flex flex-col w-full justify-between"
@@ -81,6 +58,7 @@ const TimerScreen = () => {
             timerStatus={timerStatus}
             InitialMinutes={timeCounterValues.minutes}
             InitialSeconds={timeCounterValues.seconds}
+            handleFinishedBlock={handleSkip}
           />
         </div>
 
@@ -91,13 +69,16 @@ const TimerScreen = () => {
           <div className="h-9 flex flex-row justify-evenly">
             <ButtonTimer
               bgColor="bg-[#3d98f4]"
-              title={titleButtonStartPause}
+              title={isTimerRunning ? "pause" : "start"}
               handleClick={handleStartPauseButton}
             />
-            <ButtonTimer title={"reset"} handleClick={handleResetButton} />
+            <ButtonTimer
+              title={"reset"}
+              handleClick={() => handleResetButton(pomodoroState)}
+            />
           </div>
           <div className="h-9 flex flex-row justify-evenly">
-            <ButtonTimer title={"skip"} handleClick={handleSkipButton} />
+            <ButtonTimer title={"skip"} handleClick={handleSkip} />
           </div>
         </div>
       </div>

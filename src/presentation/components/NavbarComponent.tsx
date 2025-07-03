@@ -2,11 +2,17 @@ import ModalComponent from "./ModalComponent";
 
 interface Props {
   titleScreen: string;
+  pomodoroState: string;
   icon: string;
   handleFunction: (seconds: number, minutes: number) => void;
 }
 
-const NavbarComponent = ({ titleScreen, icon, handleFunction }: Props) => {
+const NavbarComponent = ({
+  pomodoroState,
+  titleScreen,
+  icon,
+  handleFunction,
+}: Props) => {
   return (
     <header>
       <div className="flex flex-row justify-between items-center  py-4 px-7">
@@ -15,7 +21,7 @@ const NavbarComponent = ({ titleScreen, icon, handleFunction }: Props) => {
         <div className="flex-1 text-right">
           <ModalComponent
             icon={icon}
-            title={titleScreen}
+            title={pomodoroState}
             handleChangeFunction={handleFunction}
           />
         </div>

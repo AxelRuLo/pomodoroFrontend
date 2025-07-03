@@ -3,33 +3,36 @@ import ItemStatusBar from "./ItemStatusBar";
 type TimerType = "pomodoro" | "shortBreak" | "longBreak";
 
 interface StatusBarPomodoroProps {
-  mode: string;
-  setMode: (mode: TimerType) => void;
+  state: string;
+  setPomodoroStage: (mode: TimerType) => void;
 }
 
-const StatusBarPomodoro = ({ mode, setMode }: StatusBarPomodoroProps) => {
+const StatusBarPomodoro = ({
+  state,
+  setPomodoroStage,
+}: StatusBarPomodoroProps) => {
   return (
     <div className="w-5/6 min-w-[310px]">
       <div className="flex h-10 flex-1 items-center justify-center rounded-full bg-[#e7edf4] p-1">
         <ItemStatusBar
-          isActive={mode == "pomodoro"}
+          isActive={state == "pomodoro"}
           title={"Pomodoro"}
           handleClick={() => {
-            setMode("pomodoro");
+            setPomodoroStage("pomodoro");
           }}
         />
         <ItemStatusBar
-          isActive={mode == "shortBreak"}
+          isActive={state == "shortBreak"}
           title={"Short Break"}
           handleClick={() => {
-            setMode("shortBreak");
+            setPomodoroStage("shortBreak");
           }}
         />
         <ItemStatusBar
-          isActive={mode == "longBreak"}
+          isActive={state == "longBreak"}
           title={"Large Break"}
           handleClick={() => {
-            setMode("longBreak");
+            setPomodoroStage("longBreak");
           }}
         />
       </div>

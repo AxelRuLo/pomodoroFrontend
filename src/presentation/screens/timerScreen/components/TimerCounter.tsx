@@ -1,10 +1,11 @@
-import { useEffect, useRef, useState } from "react";
+import { UseTimer } from "../hooks/useTimer";
 
 interface TimerCounterProps {
   InitialMinutes?: number;
   InitialSeconds?: number;
   timerStatus: string;
   isRunning: boolean;
+  handleFinishedBlock: ()=>void;
 }
 
 export const TimerCounter = ({
@@ -12,40 +13,15 @@ export const TimerCounter = ({
   InitialSeconds = 0,
   timerStatus,
   isRunning,
+  handleFinishedBlock,
 }: TimerCounterProps) => {
-  const [minutes, setMinutes] = useState(InitialMinutes);
-  const [seconds, setSeconds] = useState(InitialSeconds);
-  const refSeconds = useRef(InitialSeconds);
-  const refMinutes = useRef(InitialMinutes);
-
-  const handleTimerSetter = () => {
-    if (!isRunning || (refMinutes.current <= 0 && refSeconds.current <= 0))
-      return;
-    if (refSeconds.current === 0) {
-      refMinutes.current = refMinutes.current - 1;
-      refSeconds.current = 60;
-      setMinutes(refMinutes.current);
-    }
-    refSeconds.current = refSeconds.current - 1;
-    setSeconds(refSeconds.current);
-  };
-
-  useEffect(() => {
-    let intervalId: any;
-    intervalId = setInterval(() => {
-      handleTimerSetter();
-    }, 1000);
-    return () => clearInterval(intervalId);
-  }, [isRunning]);
-
-  useEffect(() => {
-    if (["start", "pause"].includes(timerStatus)) return;
-
-    refMinutes.current = InitialMinutes;
-    refSeconds.current = InitialSeconds;
-    setMinutes(InitialMinutes);
-    setSeconds(InitialSeconds);
-  }, [InitialMinutes, InitialSeconds, timerStatus]);
+  const { minutes, seconds } = UseTimer({
+    InitialMinutes,
+    InitialSeconds,
+    timerStatus,
+    isRunning,
+    handleFinishedBlock,
+  });
 
   return (
     <div className="flex flex-row w-full justify-evenly">
