@@ -46,7 +46,7 @@ const ModalComponent = ({ icon, title, handleChangeFunction }: ModalProps) => {
         onClick={() => setOpen(true)}
         className="rounded-md px-2.5 py-1.5 text-sm font-semibold text-gray-900 hover:bg-gray-950/10"
       >
-        {icon}
+        <img src={icon} style={{ width: "30px", height: "auto" }} />
       </button>
       <Dialog open={open} onClose={toggleFunction} className="relative z-10">
         <DialogBackdrop
@@ -132,7 +132,7 @@ export const Input = ({ label, setValue, value }: InputProps) => {
             onChange={setValue}
             id={label}
             name={label}
-            value={isNaN(value) ? '' : value}
+            value={isNaN(value) ? "" : value}
             type="number"
             placeholder="25"
             className="block min-w-0 grow py-1.5 pr-3 pl-1 text-base text-gray-900 placeholder:text-gray-400 focus:outline-none sm:text-sm/6"

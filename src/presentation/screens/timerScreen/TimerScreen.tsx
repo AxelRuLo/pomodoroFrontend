@@ -9,6 +9,8 @@ import ModalAlarmComponent from "../../components/ModalAlarmComponent";
 
 const TimerScreen = () => {
   const [isAlarmRinging, setIsAlarmRinging] = useState(false);
+  const openModal = () => setIsAlarmRinging(true);
+  const closeModal = () => setIsAlarmRinging(false);
   const { pomodoroState, handlePomodoroStage, handleNextState } =
     useCounterNavbar();
 
@@ -31,17 +33,22 @@ const TimerScreen = () => {
     handleResetButton(pomodoroState);
   };
 
+  const handleNexStage = () => {
+    handleSkip();
+    openModal();
+  };
+
   useEffect(() => {
     resetTimer(pomodoroState);
   }, [pomodoroState]);
 
   return (
     <>
-      {/* {isAlarmRinging && <ModalAlarmComponent />} */}
+      <ModalAlarmComponent isOpen={isAlarmRinging} handleClose={closeModal} />
       <NavbarComponent
         titleScreen={"Pomodoro"}
         pomodoroState={pomodoroState}
-        icon={"+"}
+        icon={"src/assets/png/setting.png"}
         handleFunction={handleConfiguration}
       />
       <div className="flex items-center justify-center flex-col">
@@ -58,7 +65,7 @@ const TimerScreen = () => {
             timerStatus={timerStatus}
             InitialMinutes={timeCounterValues.minutes}
             InitialSeconds={timeCounterValues.seconds}
-            handleFinishedBlock={handleSkip}
+            handleFinishedBlock={handleNexStage}
           />
         </div>
 
