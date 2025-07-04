@@ -4,16 +4,19 @@ import TimerCounter from "./components/TimerCounter";
 import NavbarComponent from "../../components/NavbarComponent";
 import { useCounter } from "./hooks/useCounter";
 import { useCounterNavbar } from "./hooks/useCounterNavbar";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import ModalAlarmComponent from "../../components/ModalAlarmComponent";
 import iconImage from "../../../assets/png/setting.png";
 
 const TimerScreen = () => {
-  const [isAlarmRinging, setIsAlarmRinging] = useState(false);
-  const openModal = () => setIsAlarmRinging(true);
-  const closeModal = () => setIsAlarmRinging(false);
-  const { pomodoroState, handlePomodoroStage, handleNextState } =
-    useCounterNavbar();
+  const {
+    pomodoroState,
+    handlePomodoroStage,
+    handleNextState,
+    isAlarmRinging,
+    openModal,
+    closeModal,
+  } = useCounterNavbar();
 
   const {
     timeCounterValues,
