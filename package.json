@@ -12,9 +12,12 @@
     "format:check": "prettier --check \"src/**/*.{js,jsx,ts,tsx,css,scss,json}\""
   },
   "dependencies": {
+    "@headlessui/react": "^2.2.4",
+    "@heroicons/react": "^2.2.0",
     "@tailwindcss/vite": "^4.1.11",
     "eslint-config-prettier": "^10.1.5",
     "eslint-plugin-prettier": "^5.5.1",
+    "install": "^0.13.0",
     "prettier": "^3.6.2",
     "react": "^19.1.0",
     "react-dom": "^19.1.0",
