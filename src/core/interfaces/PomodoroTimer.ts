@@ -1,10 +1,10 @@
-import type { ConfigurationPomodoro, Timer } from '.';
+import type { ConfigurationPomodoroInterface, TimerInterface } from '.';
 import type { PomodoroStates } from '../types';
 
-export interface PomodoroTimer {
+export interface PomodoroTimerInterface {
     pomodoroState: PomodoroStates;
-    timer: Timer;
-    configurationSettings: ConfigurationPomodoro;
+    timer: TimerInterface;
+    configurationSettings: ConfigurationPomodoroInterface;
     actualCycle: number;
     isRinging: boolean;
 
@@ -14,13 +14,13 @@ export interface PomodoroTimer {
     skipState(): void;
     finishCycle(): void;
     getPomodoroState(): PomodoroStates;
-    getTimer(): Timer;
-    getConfigurationSettings(): ConfigurationPomodoro;
+    getTimer(): TimerInterface;
+    getConfigurationSettings(): ConfigurationPomodoroInterface;
     getActualCycle(): number;
     getIsRinging(): boolean;
     setPomodoroState(StateValue: PomodoroStates): void;
-    setTimer(Timer: Timer): void;
-    setConfigurationSettings(setting: ConfigurationPomodoro): void;
+    setTimer(Timer: TimerInterface): void;
+    setConfigurationSettings(setting: ConfigurationPomodoroInterface): void;
     setActualCycle(actualCycle: number): void;
     setIsRinging(newValue: boolean): void;
 }

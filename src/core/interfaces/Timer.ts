@@ -1,6 +1,6 @@
 import type { TimerState } from '../types';
 
-export interface Timer {
+export interface TimerInterface {
     seconds: number;
     state: TimerState;
 

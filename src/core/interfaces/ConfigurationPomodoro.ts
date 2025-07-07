@@ -1,4 +1,4 @@
-export interface ConfigurationPomodoro {
+export interface ConfigurationPomodoroInterface {
     pomodoroSeconds: number;
     shortBreakSeconds: number;
     largeBreakSeconds: number;
