@@ -19,7 +19,7 @@ export interface PomodoroTimerInterface {
     getActualCycle(): number;
     getIsRinging(): boolean;
     setPomodoroState(StateValue: PomodoroStates): void;
-    setTimer(Timer: TimerInterface): void;
+    setTimer(timer: TimerInterface): void;
     setConfigurationSettings(setting: ConfigurationPomodoroInterface): void;
     setActualCycle(actualCycle: number): void;
     setIsRinging(newValue: boolean): void;
