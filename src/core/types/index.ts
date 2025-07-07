@@ -1,2 +1,2 @@
-export * from './PomodoroTypes'
-export * from './TimerTypes'
+export * from './PomodoroTypes';
+export * from './TimerTypes';

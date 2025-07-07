@@ -1,3 +1,3 @@
-export * from "./Timer"
-export * from "./ConfigurationPomodoro"
-export * from "./PomodoroTimer"
+export * from './Timer';
+export * from './ConfigurationPomodoro';
+export * from './PomodoroTimer';
